@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Confirmación | Hogar Ideal{% endblock %}
+
+{% block content %}
+<div class="screen-header">
+  <h1>Confirmación</h1>
+</div>
+
+<div class="confirmation-content">
+  <div class="success-mark">✓</div>
+  <h2>¡Visita agendada!</h2>
+  <p class="confirmation-copy">Tu solicitud fue registrada correctamente. Un asesor se comunicará contigo para confirmar.</p>
+
+  <div class="confirmation-card">
+    <h3>{{ visita.propiedad.titulo }}</h3>
+    {% set meses = {1:'enero',2:'febrero',3:'marzo',4:'abril',5:'mayo',6:'junio',7:'julio',8:'agosto',9:'septiembre',10:'octubre',11:'noviembre',12:'diciembre'} %}
+    <strong>{{ visita.fecha_visita.day }} de {{ meses[visita.fecha_visita.month] }} de {{ visita.fecha_visita.year }}</strong>
+    <p>{{ visita.hora_visita }}</p>
+    <small>Código de solicitud: {{ visita.codigo_solicitud }}</small>
+  </div>
+
+  <a class="wide-action navy-action" style="width:100%;" href="{{ url_for('inicio') }}">VOLVER AL INICIO</a>
+  <p class="whatsapp-note">También recibirás la confirmación por WhatsApp.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión | Panel interno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="login-page">
+  <div class="login-card">
+    <h1>Hogar Ideal</h1>
+    <p class="subtitle">Panel interno para agentes y administrador</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <p style="padding:10px 14px;border-radius:8px;background:{{ '#dcefe7' if category=='success' else '#fbdede' }};color:{{ '#2e7d5c' if category=='success' else '#a33' }};font-size:13px;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('admin_login') }}" style="display:grid; gap:14px;">
+      <label>Correo
+        <input type="email" name="email" required autofocus>
+      </label>
+      <label>Contraseña
+        <input type="password" name="password" required>
+      </label>
+      <button class="wide-action gold-action" type="submit">INICIAR SESIÓN</button>
+    </form>
+
+    <a class="back-link" href="{{ url_for('inicio') }}">‹ Volver al sitio público</a>
+  </div>
+</body>
+</html>

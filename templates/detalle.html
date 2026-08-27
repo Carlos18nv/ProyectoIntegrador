@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ propiedad.titulo }} | Hogar Ideal{% endblock %}
+
+{% block content %}
+{% set foto = propiedad.imagen_url or "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23d6dce2'/%3E%3Ctext x='50%25' y='50%25' fill='%236b7280' font-size='24' text-anchor='middle' dy='.3em'%3ESin foto%3C/text%3E%3C/svg%3E" %}
+
+<div class="screen-header">
+  <a href="{{ url_for('resultados') }}" aria-label="Volver a resultados">‹</a>
+  <h1>Detalle</h1>
+  <span class="favorite-button" aria-label="Añadir a favoritos">♡</span>
+</div>
+
+<img class="detail-image" src="{{ foto }}" alt="{{ propiedad.titulo }}">
+
+<div class="detail-info">
+  <h1>{{ propiedad.titulo }}</h1>
+  <strong>${{ "{:,.0f}".format(propiedad.precio) }}</strong>
+  <p>{{ propiedad.sector or propiedad.direccion }}, Quito</p>
+
+  <div class="chips">
+    {% if propiedad.dormitorios %}<span>{{ propiedad.dormitorios }} habitaciones</span>{% endif %}
+    {% if propiedad.banos %}<span>{{ propiedad.banos }} baños</span>{% endif %}
+    <span>{{ propiedad.area_m2|int }} m²</span>
+  </div>
+
+  <h2>Descripción</h2>
+  <p>{{ propiedad.descripcion_detalle() }}</p>
+  {% if propiedad.descripcion %}<p>{{ propiedad.descripcion }}</p>{% endif %}
+
+  <a class="nearby-link" href="{{ url_for('mapa_propiedad', propiedad_id=propiedad.id) }}">
+    <span>Ver mapa y servicios cercanos</span><b>›</b>
+  </a>
+</div>
+
+<div class="detail-actions">
+  <a class="wide-action whatsapp-action" href="https://wa.me/593991234567">WHATSAPP</a>
+  <a class="wide-action gold-action" href="{{ url_for('agendar_visita', propiedad_id=propiedad.id) }}">AGENDAR VISITA</a>
+</div>
+{% endblock %}

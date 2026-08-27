@@ -1,0 +1,24 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Panel interno | Hogar Ideal{% endblock %}
+
+{% block content %}
+<h1>Bienvenido, {{ session.get('usuario_nombre', '') }}</h1>
+<p class="page-subtitle">Este es el resumen general de la inmobiliaria.</p>
+
+<div class="stat-grid">
+  <div class="stat-card">
+    <strong>{{ total_propiedades }}</strong>
+    <span>Propiedades activas publicadas</span>
+  </div>
+  <div class="stat-card">
+    <strong>{{ visitas_pendientes }}</strong>
+    <span>Visitas pendientes de confirmar</span>
+  </div>
+</div>
+
+<div class="admin-actions">
+  <a class="btn-small btn-gold" href="{{ url_for('nueva_casa') }}">+ Publicar propiedad</a>
+  <a class="btn-small btn-outline" href="{{ url_for('admin_visitas') }}">Ver visitas pendientes</a>
+  <a class="btn-small btn-outline" href="{{ url_for('admin_reportes') }}">Ver reportes</a>
+</div>
+{% endblock %}

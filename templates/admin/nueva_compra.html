@@ -1,0 +1,35 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Registrar compra | Panel interno{% endblock %}
+
+{% block content %}
+<h1>Registrar una compra</h1>
+<p class="page-subtitle">Se usa cuando una propiedad se vende de verdad, ya sea porque vino de una visita agendada o por otro medio (WhatsApp, referido, etc).</p>
+
+<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;" method="post" action="{{ url_for('nueva_compra') }}">
+  <label>Propiedad
+    <select name="id_propiedad" required>
+      <option value="">Selecciona una propiedad disponible</option>
+      {% for propiedad in propiedades %}
+      <option value="{{ propiedad.id }}">{{ propiedad.codigo }} — {{ propiedad.titulo }} (${{ "{:,.0f}".format(propiedad.precio) }})</option>
+      {% endfor %}
+    </select>
+  </label>
+
+  <label>Nombre del comprador
+    <input type="text" name="nombre_comprador" required>
+  </label>
+
+  <label>Monto de la venta (USD)
+    <input type="number" name="monto" min="1" step="0.01" required>
+  </label>
+
+  <label>ID de la visita relacionada (opcional)
+    <input type="number" name="id_visita" placeholder="Déjalo vacío si no viene de una visita agendada">
+  </label>
+
+  <div class="admin-actions">
+    <button class="btn-small btn-gold" type="submit">Registrar compra</button>
+    <a class="btn-small btn-outline" href="{{ url_for('admin_propiedades') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Mapa y servicios | Hogar Ideal{% endblock %}
+
+{% block content %}
+<div class="screen-header">
+  <a href="{{ url_for('detalle_propiedad', propiedad_id=propiedad.id) }}" aria-label="Volver al detalle">‹</a>
+  <h1>Mapa y servicios</h1>
+</div>
+
+<img class="map-image"
+     src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Crect width='100%25' height='100%25' fill='%23d9e6f2'/%3E%3Ctext x='50%25' y='50%25' fill='%231e3a5f' font-size='22' text-anchor='middle' dy='.3em'%3EMapa de {{ propiedad.sector or propiedad.direccion }}%3C/text%3E%3C/svg%3E"
+     alt="Mapa de la zona de {{ propiedad.titulo }}">
+
+<section class="services-list">
+  <h2>Servicios cercanos</h2>
+  <!-- Nota: estos servicios son contenido ilustrativo de ejemplo, no vienen de una tabla en la base de datos -->
+  <div><span class="service-icon">✚</span><strong>Hospital de los Valles</strong><small>8 min</small></div>
+  <div><span class="service-icon">●</span><strong>Supermercado</strong><small>5 min</small></div>
+  <div><span class="service-icon">▣</span><strong>Parada de transporte</strong><small>3 min</small></div>
+  <div><span class="service-icon">◆</span><strong>Parque central</strong><small>6 min</small></div>
+</section>
+{% endblock %}

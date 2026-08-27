@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Resultados | Hogar Ideal{% endblock %}
+
+{% block content %}
+<div class="screen-header">
+  <a href="{{ url_for('buscar') }}" aria-label="Volver a búsqueda">‹</a>
+  <h1>Resultados</h1>
+</div>
+
+<div class="results-content">
+  <div class="results-heading">
+    <h2>{{ propiedades|length }} propiedad{{ "es" if propiedades|length != 1 else "" }}</h2>
+    <a class="outline-button" href="{{ url_for('buscar') }}">Filtros</a>
+  </div>
+
+  <div class="result-list">
+    {% for propiedad in propiedades %}
+    {% set foto = propiedad.imagen_url or "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23d6dce2'/%3E%3Ctext x='50%25' y='50%25' fill='%236b7280' font-size='14' text-anchor='middle' dy='.3em'%3ESin foto%3C/text%3E%3C/svg%3E" %}
+    <a class="result-card" href="{{ url_for('detalle_propiedad', propiedad_id=propiedad.id) }}">
+      <img src="{{ foto }}" alt="{{ propiedad.titulo }}">
+      <div>
+        <h3>{{ propiedad.titulo }}</h3>
+        <strong>${{ "{:,.0f}".format(propiedad.precio) }}</strong>
+        <p>{{ propiedad.sector or propiedad.direccion }}, Quito</p>
+        <span>{{ propiedad.dormitorios or 0 }} hab. · {{ propiedad.banos or 0 }} baños · {{ propiedad.area_m2|int }} m²</span>
+      </div>
+    </a>
+    {% else %}
+    <p style="color:var(--muted);">No se encontraron propiedades con esos filtros. Prueba ajustando la búsqueda.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

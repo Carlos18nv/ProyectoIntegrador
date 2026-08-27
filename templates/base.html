@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hogar Ideal, propiedades para comprar, vender o arrendar en Quito.">
+  <title>{% block title %}Hogar Ideal{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('inicio') }}" aria-label="Hogar Ideal, ir al inicio">
+      <img src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Hogar Ideal">
+    </a>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <a href="{{ url_for('inicio') }}">Inicio</a>
+      <a href="{{ url_for('buscar') }}">Propiedades</a>
+      <a href="#contacto">Contacto</a>
+      <a class="publish-button" href="{{ url_for('admin_login') }}">Panel del agente</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-button menu-button" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">☰</button>
+    </div>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menú móvil" hidden>
+      <a href="{{ url_for('inicio') }}">Inicio</a>
+      <a href="{{ url_for('buscar') }}">Propiedades</a>
+      <a href="#contacto">Contacto</a>
+      <a href="{{ url_for('admin_login') }}">Panel del agente</a>
+    </nav>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div style="padding: 10px 20px;">
+          {% for category, message in messages %}
+            <p style="padding:10px 14px;border-radius:8px;margin-bottom:8px;background:{{ '#dcefe7' if category=='success' else '#fbdede' }};color:{{ '#2e7d5c' if category=='success' else '#a33' }};font-size:13px;">{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <img src="{{ url_for('static', filename='imagenes/logo.png') }}" alt="Hogar Ideal">
+    <p>Hacemos realidad el sueño de tu nuevo hogar.</p>
+    <p class="footer-links">Inicio · Propiedades · Contacto</p>
+    <p>Quito, Ecuador · +593 99 123 4567</p>
+    <p class="social-links">
+      <a href="#facebook"><img src="{{ url_for('static', filename='imagenes/facebook.svg') }}" alt="" width="18" height="18"> Facebook</a>
+      <a href="#instagram"><img src="{{ url_for('static', filename='imagenes/instagram.svg') }}" alt="" width="18" height="18"> Instagram</a>
+      <a href="https://wa.me/593991234567"><img src="{{ url_for('static', filename='imagenes/whatsapp.svg') }}" alt="" width="18" height="18"> WhatsApp</a>
+      <a href="mailto:info@hogarideal.com"><img src="{{ url_for('static', filename='imagenes/mail.svg') }}" alt="" width="18" height="18"> Correo</a>
+    </p>
+  </footer>
+
+  <script>
+    const menuButton = document.querySelector('.menu-button');
+    const mobileMenu = document.querySelector('#mobile-menu');
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', () => {
+        const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+        mobileMenu.hidden = isOpen;
+        menuButton.setAttribute('aria-expanded', String(!isOpen));
+      });
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.site-header')) mobileMenu.hidden = true;
+      });
+    }
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

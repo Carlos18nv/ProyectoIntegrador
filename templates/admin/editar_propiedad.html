@@ -1,0 +1,24 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Editar {{ propiedad.titulo }} | Panel interno{% endblock %}
+
+{% block content %}
+<h1>Editar propiedad</h1>
+<p class="page-subtitle">{{ propiedad.codigo }} · {{ propiedad.tipo|capitalize }} · {{ propiedad.direccion }}</p>
+
+<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;" method="post" action="{{ url_for('editar_propiedad', propiedad_id=propiedad.id) }}">
+  <label>Título (solo informativo, no se puede editar aquí)
+    <input type="text" value="{{ propiedad.titulo }}" disabled>
+  </label>
+  <label>Precio (USD)
+    <input type="number" name="precio" min="1" step="0.01" value="{{ propiedad.precio }}" required>
+  </label>
+  <label>Descripción
+    <textarea name="descripcion" rows="4">{{ propiedad.descripcion or "" }}</textarea>
+  </label>
+
+  <div class="admin-actions">
+    <button class="btn-small btn-gold" type="submit">Guardar cambios</button>
+    <a class="btn-small btn-outline" href="{{ url_for('admin_propiedades') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

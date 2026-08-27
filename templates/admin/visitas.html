@@ -1,0 +1,42 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Visitas pendientes | Panel interno{% endblock %}
+
+{% block content %}
+<h1>Visitas pendientes</h1>
+<p class="page-subtitle">Solicitudes de visita agendadas por clientes desde el sitio público.</p>
+
+<div style="overflow-x:auto;">
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Cliente</th>
+      <th>Propiedad</th>
+      <th>Fecha</th>
+      <th>Horario</th>
+      <th>Contacto</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for visita in visitas %}
+    <tr>
+      <td>{{ visita.codigo_solicitud }}</td>
+      <td>{{ visita.nombre_cliente }}</td>
+      <td>{{ visita.propiedad.titulo }}</td>
+      <td>{{ visita.fecha_visita.strftime("%d/%m/%Y") }}</td>
+      <td>{{ visita.hora_visita }}</td>
+      <td>{{ visita.telefono }}<br><small>{{ visita.correo }}</small></td>
+      <td class="actions">
+        <form method="post" action="{{ url_for('completar_visita', visita_id=visita.id) }}">
+          <button class="btn-small btn-gold" type="submit">Marcar realizada</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" style="color:var(--muted);">No hay visitas pendientes por el momento.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

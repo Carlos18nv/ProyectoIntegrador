@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Agendar visita | Hogar Ideal{% endblock %}
+
+{% block content %}
+<div class="screen-header">
+  <a href="{{ url_for('detalle_propiedad', propiedad_id=propiedad.id) }}" aria-label="Volver al detalle">‹</a>
+  <h1>Agendar visita</h1>
+</div>
+
+<form class="schedule-form" action="{{ url_for('agendar_visita', propiedad_id=propiedad.id) }}" method="post">
+  <h2>Visita la propiedad</h2>
+  <p class="intro">Selecciona una fecha y completa tus datos. Un asesor confirmará la disponibilidad.</p>
+
+  <label>Nombre completo
+    <input type="text" name="nombre_cliente" required>
+  </label>
+  <label>Teléfono
+    <input type="tel" name="telefono" required>
+  </label>
+  <label>Correo
+    <input type="email" name="correo" required>
+  </label>
+  <label>Fecha
+    <input type="date" name="fecha_visita" required>
+  </label>
+  <label>Horario
+    <input type="text" name="hora_visita" placeholder="Ej: 10:00 - 11:00" required>
+  </label>
+  <label>Mensaje opcional
+    <textarea name="mensaje" placeholder="Cuéntanos algo más sobre tu visita"></textarea>
+  </label>
+
+  <button class="wide-action gold-action" type="submit">CONFIRMAR VISITA</button>
+</form>
+{% endblock %}

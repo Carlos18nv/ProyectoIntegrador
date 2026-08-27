@@ -1,0 +1,47 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Propiedades | Panel interno{% endblock %}
+
+{% block content %}
+<h1>Propiedades</h1>
+<p class="page-subtitle">Gestiona el catálogo de propiedades publicadas.</p>
+
+<div class="admin-actions">
+  <a class="btn-small btn-gold" href="{{ url_for('nueva_casa') }}">+ Nueva casa</a>
+  <a class="btn-small btn-gold" href="{{ url_for('nueva_departamento') }}">+ Nuevo departamento</a>
+  <a class="btn-small btn-gold" href="{{ url_for('nueva_terreno') }}">+ Nuevo terreno</a>
+</div>
+
+<div style="overflow-x:auto;">
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Título</th>
+      <th>Tipo</th>
+      <th>Precio</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for propiedad in propiedades %}
+    <tr>
+      <td>{{ propiedad.codigo }}</td>
+      <td>{{ propiedad.titulo }}</td>
+      <td>{{ propiedad.tipo|capitalize }}</td>
+      <td>${{ "{:,.0f}".format(propiedad.precio) }}</td>
+      <td><span class="status-pill status-{{ propiedad.estado }}">{{ propiedad.estado|capitalize }}</span></td>
+      <td class="actions">
+        <a class="btn-small btn-outline" href="{{ url_for('editar_propiedad', propiedad_id=propiedad.id) }}">Editar</a>
+        <form method="post" action="{{ url_for('desactivar_propiedad', propiedad_id=propiedad.id) }}" onsubmit="return confirm('¿Desactivar esta propiedad?');" style="display:inline;">
+          <button class="btn-small btn-danger" type="submit">Desactivar</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" style="color:var(--muted);">Todavía no hay propiedades publicadas.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

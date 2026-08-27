@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Panel interno | Hogar Ideal{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="admin-topbar">
+    <span class="admin-brand">Hogar Ideal · Panel interno</span>
+    <nav>
+      <a href="{{ url_for('admin_dashboard') }}">Inicio</a>
+      <a href="{{ url_for('admin_propiedades') }}">Propiedades</a>
+      <a href="{{ url_for('admin_visitas') }}">Visitas</a>
+      <a href="{{ url_for('nueva_compra') }}">Compras</a>
+      <a href="{{ url_for('admin_reportes') }}">Reportes</a>
+    </nav>
+    <a class="logout-link" href="{{ url_for('admin_logout') }}">Cerrar sesión</a>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div style="padding: 14px 20px 0;">
+        {% for category, message in messages %}
+          <p style="padding:10px 14px;border-radius:8px;margin-bottom:8px;background:{{ '#dcefe7' if category=='success' else '#fbdede' }};color:{{ '#2e7d5c' if category=='success' else '#a33' }};font-size:13px;">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="admin-content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

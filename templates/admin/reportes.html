@@ -1,0 +1,63 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Reportes | Panel interno{% endblock %}
+
+{% block content %}
+<h1>Reportes</h1>
+<p class="page-subtitle">Resultados generados directamente desde las funciones de PostgreSQL (no son cálculos hechos en Python).</p>
+
+<h2 style="color:var(--navy); font:600 17px/1.2 Montserrat, sans-serif; margin: 20px 0 10px;">Ventas confirmadas</h2>
+<div style="overflow-x:auto;">
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Propiedad</th>
+      <th>Comprador</th>
+      <th>Monto</th>
+      <th>Registrado por</th>
+      <th>Fecha</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for fila in ventas %}
+    <tr>
+      <td>{{ fila.propiedad }}</td>
+      <td>{{ fila.comprador }}</td>
+      <td>${{ "{:,.0f}".format(fila.monto) }}</td>
+      <td>{{ fila.registrado_por or "—" }}</td>
+      <td>{{ fila.fecha.strftime("%d/%m/%Y") }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" style="color:var(--muted);">Todavía no hay ventas confirmadas en este rango de fechas.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2 style="color:var(--navy); font:600 17px/1.2 Montserrat, sans-serif; margin: 28px 0 10px;">Visitas pendientes</h2>
+<div style="overflow-x:auto;">
+<table class="admin-table">
+  <thead>
+    <tr>
+      <th>Código</th>
+      <th>Cliente</th>
+      <th>Propiedad</th>
+      <th>Fecha</th>
+      <th>Horario</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for fila in visitas_pendientes %}
+    <tr>
+      <td>{{ fila.codigo }}</td>
+      <td>{{ fila.cliente }}</td>
+      <td>{{ fila.propiedad }}</td>
+      <td>{{ fila.fecha.strftime("%d/%m/%Y") }}</td>
+      <td>{{ fila.hora }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" style="color:var(--muted);">No hay visitas pendientes.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
