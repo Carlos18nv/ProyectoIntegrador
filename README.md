@@ -18,9 +18,10 @@ El sistema combina un **sitio web público** enfocado en la experiencia del clie
   - [3. Instalar Dependencias](#3-instalar-dependencias)
   - [4. Configurar la Base de Datos PostgreSQL](#4-configurar-la-base-de-datos-postgresql)
   - [5. Configurar el Archivo `.env`](#5-configurar-el-archivo-env)
-  - [6. Inicializar Tablas y Datos Semilla (Python)](#6-inicializar-tablas-y-datos-semilla-python)
-  - [7. Crear Procedimientos Almacenados, Triggers y Funciones (SQL)](#7-crear-procedimientos-almacenados-triggers-y-funciones-sql)
-  - [8. Ejecutar la Aplicación](#8-ejecutar-la-aplicación)
+  - [6. Inicialización de la Base de Datos (Opciones de Replicación)](#6-inicialización-de-la-base-de-datos-opciones-de-replicación)
+    - [🌟 Opción 1 (Primera Opción / Recomendada): Restauración Directa mediante Script SQL](#-opción-1-primera-opción--recomendada-restauración-directa-mediante-script-sql)
+    - [🛠️ Opción 2: Inicialización mediante Python y Sentencias SQL Manuales](#️-opción-2-inicialización-mediante-python-y-sentencias-sql-manuales)
+  - [7. Ejecutar la Aplicación](#7-ejecutar-la-aplicación)
 - [Credenciales de Prueba](#-credenciales-de-prueba)
 - [Flujo de Verificación y Pruebas](#-flujo-de-verificación-y-pruebas)
 
@@ -72,7 +73,7 @@ Este proyecto resuelve de manera integral las necesidades operativas de una inmo
 Asegúrate de contar con lo siguiente instalado en tu equipo:
 
 - **Python**: Versión 3.10 o superior.
-- **PostgreSQL**: Servidor de base de datos activo (ej. v14, v15 o v16).
+- **PostgreSQL**: Servidor de base de datos activo (ej. v14, v15, v16 o v18).
 - **Herramienta SQL (Opcional)**: `psql` (línea de comandos), **pgAdmin 4** o **DBeaver** para ejecutar sentencias SQL.
 
 ---
@@ -90,6 +91,9 @@ inmobiliaria/
 ├── init_db.py                 # Script de creación de tablas SQLAlchemy y datos de prueba
 ├── models.py                  # Modelos de datos en POO (Propiedad, Casa, Departamento, etc.)
 ├── README.md                  # Guía de replicación del proyecto
+│
+├── database/                  # Scripts de base de datos
+│   └── scriptinmobiliaria.sql # Dump completo de BD (Tablas, datos, triggers, stored procedures)
 │
 ├── static/                    # Archivos estáticos
 │   ├── css/                   # Estilos CSS generales y responsivos
@@ -184,7 +188,40 @@ SECRET_KEY=clave_secreta_super_segura_para_desarrollo_123
 
 ---
 
-### 6. Inicializar Tablas y Datos Semilla (Python)
+### 6. Inicialización de la Base de Datos (Opciones de Replicación)
+
+Puedes replicar la base de datos eligiendo una de las dos opciones a continuación. **La Opción 1 es la primera opción y la recomendada**, ya que deja lista toda la base de datos en un solo paso.
+
+---
+
+#### 🌟 Opción 1 (Primera Opción / Recomendada): Restauración Directa mediante Script SQL
+
+Dentro de la carpeta `database/` se encuentra el archivo `scriptinmobiliaria.sql`, que contiene la estructura completa de la base de datos (tablas, secuencias, claves primarias y foráneas, restricciones CHECK/UNIQUE), los datos semilla iniciales, el **Stored Procedure** (`registrar_compra`), el **Trigger** (`actualizar_estado_propiedad`) y las **Funciones de Reporte**.
+
+Para restaurar la base de datos usando este script:
+
+- **Desde la Línea de Comandos (`psql`)**:
+  ```bash
+  psql -U postgres -d inmobiliaria -f database/scriptinmobiliaria.sql
+  ```
+
+- **Desde pgAdmin 4**:
+  1. En el panel izquierdo, haz clic derecho sobre la base de datos `inmobiliaria` recién creada y selecciona **Query Tool** (Herramienta de Consultas).
+  2. Haz clic en el ícono de carpeta **Open File** (Abrir Archivo) y selecciona `database/scriptinmobiliaria.sql`.
+  3. Ejecuta todo el archivo haciendo clic en el botón de reproducción **Execute/Refresh (F5)**.
+
+- **Desde DBeaver**:
+  1. Conéctate a la base de datos `inmobiliaria`.
+  2. Ve a **File -> Open File** y selecciona `database/scriptinmobiliaria.sql`.
+  3. Ejecuta el script completo presionando **Alt + X** o el botón de ejecutar script SQL.
+
+---
+
+#### 🛠️ Opción 2: Inicialización mediante Python y Sentencias SQL Manuales
+
+Si prefieres construir la base de datos paso a paso manualmente usando SQLAlchemy y la consola SQL:
+
+##### A. Inicializar Tablas y Datos Semilla (Python)
 Ejecuta el script `init_db.py`. Este script se encarga de crear las estructuras de las tablas base mediante SQLAlchemy e insertar los usuarios internos de prueba y propiedades iniciales:
 
 ```bash
@@ -198,15 +235,10 @@ Tablas creadas.
 Usuarios internos y propiedades de prueba insertados.
 ```
 
----
-
-### 7. Crear Procedimientos Almacenados, Triggers y Funciones (SQL)
-
-> 💡 **Paso Fundamental**: SQLAlchemy crea las tablas relacionales, pero los objetos propios de la base de datos (Stored Procedures, Triggers y Funciones PL/pgSQL) deben ejecutarse directamente en PostgreSQL.
-
+##### B. Crear Procedimientos Almacenados, Triggers y Funciones (SQL)
 Conéctate a la base de datos `inmobiliaria` mediante pgAdmin, DBeaver o `psql` y ejecuta las siguientes 4 sentencias SQL:
 
-#### A. Trigger para actualizar el estado del inmueble a 'vendida'
+###### 1. Trigger para actualizar el estado del inmueble a 'vendida'
 ```sql
 CREATE OR REPLACE FUNCTION actualizar_estado_propiedad()
 RETURNS TRIGGER AS $$
@@ -224,7 +256,7 @@ FOR EACH ROW
 EXECUTE FUNCTION actualizar_estado_propiedad();
 ```
 
-#### B. Stored Procedure para registrar compras con validación de negocio
+###### 2. Stored Procedure para registrar compras con validación de negocio
 ```sql
 CREATE OR REPLACE PROCEDURE registrar_compra(
     p_id_propiedad INTEGER,
@@ -254,7 +286,7 @@ END;
 $$;
 ```
 
-#### C. Función de Reporte 1: Ventas confirmadas con JOIN
+###### 3. Función de Reporte 1: Ventas confirmadas con JOIN
 ```sql
 CREATE OR REPLACE FUNCTION reporte_ventas(fecha_inicio DATE, fecha_fin DATE)
 RETURNS TABLE(propiedad VARCHAR, comprador VARCHAR, monto NUMERIC, registrado_por VARCHAR, fecha TIMESTAMP) AS $$
@@ -270,7 +302,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-#### D. Función de Reporte 2: Visitas pendientes con JOIN
+###### 4. Función de Reporte 2: Visitas pendientes con JOIN
 ```sql
 CREATE OR REPLACE FUNCTION reporte_visitas_pendientes()
 RETURNS TABLE(codigo VARCHAR, cliente VARCHAR, propiedad VARCHAR, fecha DATE, hora VARCHAR) AS $$
@@ -287,7 +319,7 @@ $$ LANGUAGE plpgsql;
 
 ---
 
-### 8. Ejecutar la Aplicación
+### 7. Ejecutar la Aplicación
 Inicia el servidor web de desarrollo de Flask:
 
 ```bash
@@ -300,7 +332,7 @@ La aplicación se ejecutará en: `http://127.0.0.1:5000`
 
 ## 🔑 Credenciales de Prueba
 
-El script `init_db.py` crea los siguientes usuarios por defecto para acceder al panel administrativo (`http://127.0.0.1:5000/admin/login`):
+Tanto la **Opción 1** (script SQL) como la **Opción 2** (`init_db.py`) crean los siguientes usuarios por defecto para acceder al panel administrativo (`http://127.0.0.1:5000/admin/login`):
 
 | Rol | Correo Electrónico | Contraseña |
 |---|---|---|
