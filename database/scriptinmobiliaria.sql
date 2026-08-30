@@ -527,6 +527,16 @@ ALTER TABLE ONLY public.visitas
     ADD CONSTRAINT visitas_id_propiedad_fkey FOREIGN KEY (id_propiedad) REFERENCES public.propiedades(id);
 
 
+--
+-- Name: compras trg_compra_confirmada; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER trg_compra_confirmada
+    AFTER INSERT OR UPDATE ON public.compras
+    FOR EACH ROW
+    EXECUTE FUNCTION public.actualizar_estado_propiedad(); 
+
+
 -- Completed on 2026-08-27 00:41:23
 
 --
@@ -534,4 +544,3 @@ ALTER TABLE ONLY public.visitas
 --
 
 \unrestrict wsBSAtazRTYdmfAAvNCz3Sw8doZIdDsd5c5WDyOKJRqY7iXu2Hb8FSblfpDfAnN
-

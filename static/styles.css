@@ -759,7 +759,12 @@ textarea {
    ========================================================= */
 @media (min-width: 768px) {
 
-  .site-header,
+  .site-header {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 40px;
+  }
+
   .filter-form,
   .schedule-form,
   .results-content,
@@ -806,35 +811,46 @@ textarea {
   .main-nav {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 28px;
     color: var(--white);
     font-size: 14px;
     font-weight: 600;
   }
 
   .main-nav a.publish-button {
-    padding: 9px 16px;
-    border-radius: 7px;
+    padding: 10px 20px;
+    border-radius: 8px;
     background: var(--gold);
     color: var(--navy);
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+
+  .main-nav a.publish-button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
   }
 
   .site-header {
-    padding-inline: 48px;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 60px;
   }
 
   .hero {
     display: grid;
-    grid-template-columns: 1fr minmax(340px, 460px);
+    grid-template-columns: 1fr minmax(360px, 480px);
     align-items: center;
-    gap: 32px;
-    padding: 48px;
-    min-height: 360px;
+    gap: 40px;
+    padding: 56px 60px;
+    min-height: 400px;
+    max-width: 1360px;
+    margin-inline: auto;
   }
 
   .hero h1 {
-    font-size: 42px;
+    font-size: 44px;
   }
 
   .search-bar {
@@ -843,7 +859,9 @@ textarea {
   }
 
   .section-pad {
-    padding: 32px 48px;
+    padding: 36px 60px;
+    max-width: 1360px;
+    margin-inline: auto;
   }
 
   .benefit-list {
@@ -851,7 +869,7 @@ textarea {
   }
 
   .category-grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .featured-grid {
@@ -863,21 +881,63 @@ textarea {
     align-items: center;
     justify-content: space-between;
     text-align: left;
-    padding: 28px 48px;
+    padding: 36px 60px;
+    max-width: 1360px;
+    margin-inline: auto;
   }
 
   .site-footer {
-    padding: 32px 48px;
+    padding: 36px 60px;
+    max-width: 1360px;
+    margin-inline: auto;
+  }
+
+  .screen-header {
+    display: none;
+  }
+
+  .detail-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 36px auto;
+    padding: 0 60px;
+    align-items: start;
+  }
+
+  .detail-image {
+    width: 100%;
+    height: 420px;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+  }
+
+  .detail-info {
+    padding: 0;
+  }
+
+  .detail-actions {
+    padding: 24px 0 0 0;
   }
 
   .filter-form,
   .schedule-form,
-  .results-content,
-  .detail-info,
-  .detail-actions,
-  .services-list,
   .confirmation-content {
-    max-width: 900px;
+    max-width: 640px;
+    margin: 36px auto;
+    padding: 36px 40px;
+    border-radius: 16px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+  }
+
+  .results-content {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 60px;
+    width: 100%;
   }
 
   .result-list {

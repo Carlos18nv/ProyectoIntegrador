@@ -5,7 +5,8 @@
 <h1>Publicar un terreno</h1>
 <p class="page-subtitle">Completa los datos de la nueva propiedad.</p>
 
-<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;" method="post" action="{{ url_for('nueva_terreno') }}">
+<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;"
+  method="post" action="{{ url_for('nueva_terreno') }}">
   <label>Código
     <input type="text" name="codigo" placeholder="Ej: TER002" required>
   </label>
@@ -27,6 +28,7 @@
   <label>Uso de suelo
     <input type="text" name="uso_suelo" placeholder="Ej: residencial, comercial">
   </label>
+  <label>URL de la imagen<input type="text" name="imagen_url" placeholder="/static/imagenes/property-1.png"></label>
   <label>Descripción
     <textarea name="descripcion" rows="3"></textarea>
   </label>

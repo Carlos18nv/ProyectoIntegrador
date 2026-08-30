@@ -5,7 +5,8 @@
 <h1>Publicar un departamento</h1>
 <p class="page-subtitle">Completa los datos de la nueva propiedad.</p>
 
-<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;" method="post" action="{{ url_for('nueva_departamento') }}">
+<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;"
+  method="post" action="{{ url_for('nueva_departamento') }}">
   <label>Código
     <input type="text" name="codigo" placeholder="Ej: DEP002" required>
   </label>
@@ -30,6 +31,7 @@
   <label>Baños
     <input type="number" name="banos" min="0">
   </label>
+  <label>URL de la imagen<input type="text" name="imagen_url" placeholder="/static/imagenes/property-1.png"></label>
   <label>Descripción
     <textarea name="descripcion" rows="3"></textarea>
   </label>

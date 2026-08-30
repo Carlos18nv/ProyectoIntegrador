@@ -153,6 +153,7 @@ def nueva_casa():
             banos=request.form.get("banos"),
             permite_mascotas=bool(request.form.get("permite_mascotas")),
             num_pisos=request.form.get("num_pisos"),
+            imagen_url=request.form.get("imagen_url") or None,
             id_agente=session["usuario_id"],
         )
         db.session.add(casa)
@@ -160,6 +161,53 @@ def nueva_casa():
         flash("Casa publicada correctamente.", "success")
         return redirect(url_for("admin_propiedades"))
     return render_template("admin/nueva_casa.html")
+
+@app.route("/admin/propiedades/nueva/departamento", methods=["GET", "POST"])
+@login_requerido
+def nueva_departamento():
+    if request.method == "POST":
+        departamento = Departamento(
+            codigo=request.form["codigo"],
+            titulo=request.form["titulo"],
+            precio=request.form["precio"],
+            area_m2=request.form["area_m2"],
+            direccion=request.form["direccion"],
+            sector=request.form.get("sector"),
+            descripcion=request.form.get("descripcion"),
+            dormitorios=request.form.get("dormitorios"),
+            banos=request.form.get("banos"),
+            permite_mascotas=bool(request.form.get("permite_mascotas")),
+            imagen_url=request.form.get("imagen_url") or None,
+            id_agente=session["usuario_id"],
+        )
+        db.session.add(departamento)
+        db.session.commit()
+        flash("Departamento publicado correctamente.", "success")
+        return redirect(url_for("admin_propiedades"))
+    return render_template("admin/nueva_departamento.html")
+
+
+@app.route("/admin/propiedades/nueva/terreno", methods=["GET", "POST"])
+@login_requerido
+def nueva_terreno():
+    if request.method == "POST":
+        terreno = Terreno(
+            codigo=request.form["codigo"],
+            titulo=request.form["titulo"],
+            precio=request.form["precio"],
+            area_m2=request.form["area_m2"],
+            direccion=request.form["direccion"],
+            sector=request.form.get("sector"),
+            descripcion=request.form.get("descripcion"), 
+            imagen_url=request.form.get("imagen_url") or None,
+            id_agente=session["usuario_id"],
+        )
+        db.session.add(terreno)
+        db.session.commit()
+        flash("Terreno publicado correctamente.", "success")
+        return redirect(url_for("admin_propiedades"))
+    return render_template("admin/nueva_terreno.html")
+
 
 # nueva_departamento y nueva_terreno siguen la misma estructura,
 # cambiando los campos propios de cada tipo

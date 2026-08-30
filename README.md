@@ -4,26 +4,8 @@ Plataforma web para la gestión de bienes raíces desarrollada con **Python (Fla
 
 El sistema combina un **sitio web público** enfocado en la experiencia del cliente (búsqueda, filtrado y agendamiento de visitas sin requerir inicio de sesión) con un **panel administrativo interno** para agentes y administradores (gestión CRUD de inmuebles, seguimiento de visitas, módulo de ventas/compras con procedimientos almacenados y reportes dinámicos).
 
----
-
-## 📋 Tabla de Contenidos
-- [Resumen del Proyecto](#-resumen-del-proyecto)
-- [Características Principales](#-características-principales)
-- [Rúbrica y Arquitectura del Sistema](#-rúbrica-y-arquitectura-del-sistema)
-- [Requisitos Previos](#-requisitos-previos)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Guía Paso a Paso para Replicar el Proyecto](#-guía-paso-a-paso-para-replicar-el-proyecto)
-  - [1. Clonar o Descargar el Proyecto](#1-clonar-o-descargar-el-proyecto)
-  - [2. Crear y Activar el Entorno Virtual](#2-crear-y-activar-el-entorno-virtual)
-  - [3. Instalar Dependencias](#3-instalar-dependencias)
-  - [4. Configurar la Base de Datos PostgreSQL](#4-configurar-la-base-de-datos-postgresql)
-  - [5. Configurar el Archivo `.env`](#5-configurar-el-archivo-env)
-  - [6. Inicialización de la Base de Datos (Opciones de Replicación)](#6-inicialización-de-la-base-de-datos-opciones-de-replicación)
-    - [🌟 Opción 1 (Primera Opción / Recomendada): Restauración Directa mediante Script SQL](#-opción-1-primera-opción--recomendada-restauración-directa-mediante-script-sql)
-    - [🛠️ Opción 2: Inicialización mediante Python y Sentencias SQL Manuales](#️-opción-2-inicialización-mediante-python-y-sentencias-sql-manuales)
-  - [7. Ejecutar la Aplicación](#7-ejecutar-la-aplicación)
-- [Credenciales de Prueba](#-credenciales-de-prueba)
-- [Flujo de Verificación y Pruebas](#-flujo-de-verificación-y-pruebas)
+> 🎨 **Prototipo e Interfaz de Diseño en Figma**:  
+> [Ver diseño original en Figma](https://www.figma.com/design/jbzUldXoyvPxNHptej225I/FIGMA?node-id=147-15&m=dev)
 
 ---
 
@@ -54,20 +36,6 @@ Este proyecto resuelve de manera integral las necesidades operativas de una inmo
 
 ---
 
-## 📐 Rúbrica y Arquitectura del Sistema
-
-| Punto | Requerimiento Técnico | Solución Implementada |
-|---|---|---|
-| **1.1** | Modelo de datos, PK, FK, normalización | 4 tablas relacionales (`usuarios`, `propiedades`, `visitas`, `compras`) con claves primarias y foráneas explícitas. |
-| **1.2** | CHECK / DEFAULT / UNIQUE, triggers y stored procedures | Restricciones `CHECK` en montos y precios (> 0), `UNIQUE` en correos, códigos de propiedad y visitas. Trigger `trg_compra_confirmada` y Stored Procedure `registrar_compra`. |
-| **1.3** | Reportes con JOIN relacionales | Funciones de PostgreSQL `reporte_ventas` y `reporte_visitas_pendientes`. |
-| **1.4** | Medidas básicas de seguridad | Encriptación bcrypt/pbkdf2 de contraseñas de personal, decoradores de autenticación y respaldo de BD. |
-| **2.1 - 2.3** | Diseño responsivo y fidelidad Figma | Flujo público exacto al prototipo (búsqueda, detalle, agendar visita con código `VIS-XXXX`). |
-| **3.1 - 3.4** | POO, Herencia y Polimorfismo | Clases `Casa`, `Departamento` y `Terreno` heredan de `Propiedad` y sobrescriben `descripcion_detalle()`. |
-| **5.0** | CRUD y Módulo de Compras | Gestión completa de inmuebles y registro de ventas desde el panel de control. |
-
----
-
 ## 🛠️ Requisitos Previos
 
 Asegúrate de contar con lo siguiente instalado en tu equipo:
@@ -75,48 +43,6 @@ Asegúrate de contar con lo siguiente instalado en tu equipo:
 - **Python**: Versión 3.10 o superior.
 - **PostgreSQL**: Servidor de base de datos activo (ej. v14, v15, v16 o v18).
 - **Herramienta SQL (Opcional)**: `psql` (línea de comandos), **pgAdmin 4** o **DBeaver** para ejecutar sentencias SQL.
-
----
-
-## 📁 Estructura del Proyecto
-
-```text
-inmobiliaria/
-│
-├── .env                       # Variables de entorno (Credenciales de BD y Secret Key)
-├── .gitignore                 # Archivos ignorados por Git
-├── app.py                     # Aplicación principal Flask (Rutas públicas y administrativas)
-├── auth.py                    # Decoradores de autenticación y seguridad
-├── config.py                  # Lectura de variables de entorno y configuración de SQLAlchemy
-├── init_db.py                 # Script de creación de tablas SQLAlchemy y datos de prueba
-├── models.py                  # Modelos de datos en POO (Propiedad, Casa, Departamento, etc.)
-├── README.md                  # Guía de replicación del proyecto
-│
-├── database/                  # Scripts de base de datos
-│   └── scriptinmobiliaria.sql # Dump completo de BD (Tablas, datos, triggers, stored procedures)
-│
-├── static/                    # Archivos estáticos
-│   ├── css/                   # Estilos CSS generales y responsivos
-│   └── imagenes/              # Imágenes de los inmuebles y assets
-│
-└── templates/                 # Plantillas HTML con Jinja2
-    ├── base.html              # Layout base (Header, Footer, Navegación)
-    ├── index.html             # Inicio / Propiedades destacadas
-    ├── buscar.html            # Vista de búsqueda con filtros
-    ├── resultados.html        # Galería de resultados filtrados
-    ├── detalle.html           # Ficha detallada del inmueble
-    ├── agendar_visita.html    # Formulario público de visita
-    ├── confirmacion.html      # Pantalla de confirmación con código VIS-XXXX
-    └── admin/                 # Vistas del panel de administración
-        ├── login.html         # Login del personal
-        ├── dashboard.html     # Resumen de métricas
-        ├── propiedades.html   # Tabla CRUD de inmuebles
-        ├── nueva_casa.html    # Formulario de alta de casa
-        ├── editar_propiedad.html # Formulario de edición
-        ├── visitas.html       # Control de citas agendadas
-        ├── nueva_compra.html  # Formulario para registrar ventas (Stored Procedure)
-        └── reportes.html      # Vista de reportes de ventas y visitas
-```
 
 ---
 
