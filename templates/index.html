@@ -17,10 +17,26 @@
 <section class="section-pad benefits" aria-labelledby="benefits-title">
   <h2 id="benefits-title">¿Por qué elegirnos?</h2>
   <div class="benefit-list">
-    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/advice.svg') }}" alt="" width="28" height="28"><h3>Asesoría</h3><p>Te acompañamos en cada paso</p></article>
-    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/verified.svg') }}" alt="" width="28" height="28"><h3>Verificadas</h3><p>Propiedades con mayor seguridad</p></article>
-    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/options.svg') }}" alt="" width="28" height="28"><h3>Variedad</h3><p>Muchas opciones para elegir</p></article>
-    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/support.svg') }}" alt="" width="28" height="28"><h3>Soporte</h3><p>Acompañamiento continuo</p></article>
+    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/advice.svg') }}" alt="" width="28"
+        height="28">
+      <h3>Asesoría</h3>
+      <p>Te acompañamos en cada paso</p>
+    </article>
+    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/verified.svg') }}" alt="" width="28"
+        height="28">
+      <h3>Verificadas</h3>
+      <p>Propiedades con mayor seguridad</p>
+    </article>
+    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/options.svg') }}" alt="" width="28"
+        height="28">
+      <h3>Variedad</h3>
+      <p>Muchas opciones para elegir</p>
+    </article>
+    <article class="benefit"><img src="{{ url_for('static', filename='imagenes/support.svg') }}" alt="" width="28"
+        height="28">
+      <h3>Soporte</h3>
+      <p>Acompañamiento continuo</p>
+    </article>
   </div>
 </section>
 
@@ -40,12 +56,15 @@
   </div>
   <div class="featured-grid">
     {% for propiedad in propiedades %}
-    {% set foto = propiedad.imagen_url or "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23d6dce2'/%3E%3Ctext x='50%25' y='50%25' fill='%236b7280' font-size='20' text-anchor='middle' dy='.3em'%3ESin foto%3C/text%3E%3C/svg%3E" %}
+    {% set foto = propiedad.imagen_url or "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg'
+    width='400' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23d6dce2'/%3E%3Ctext x='50%25' y='50%25'
+    fill='%236b7280' font-size='20' text-anchor='middle' dy='.3em'%3ESin foto%3C/text%3E%3C/svg%3E" %}
     <a class="property-card" href="{{ url_for('detalle_propiedad', propiedad_id=propiedad.id) }}">
       <img src="{{ foto }}" alt="{{ propiedad.titulo }}">
       <div class="property-content">
         <h3>{{ propiedad.titulo }}</h3>
-        <p>{{ propiedad.sector or propiedad.direccion }}, Quito · {{ propiedad.dormitorios or 0 }} hab. · {{ propiedad.banos or 0 }} baños</p>
+        <p>{{ propiedad.sector or propiedad.direccion }}, Quito · {{ propiedad.dormitorios or 0 }} hab. · {{
+          propiedad.banos or 0 }} baños</p>
         <strong>${{ "{:,.0f}".format(propiedad.precio) }}</strong>
       </div>
     </a>
@@ -60,6 +79,6 @@
     <h2>¿Listo para encontrar tu próxima propiedad?</h2>
     <p>Déjanos ayudarte a dar el siguiente paso.</p>
   </div>
-  <a class="primary-button" href="https://wa.me/593991234567">CONTACTAR POR WHATSAPP</a>
+  <a class="primary-button" href="https://wa.me/0997736174">CONTACTAR POR WHATSAPP</a>
 </section>
 {% endblock %}

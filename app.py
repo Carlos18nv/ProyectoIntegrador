@@ -219,7 +219,8 @@ def editar_propiedad(propiedad_id):
     propiedad = Propiedad.query.get_or_404(propiedad_id)
     if request.method == "POST":
         propiedad.precio = request.form["precio"]
-        propiedad.descripcion = request.form.get("descripcion")
+        propiedad.descripcion = request.form.get("descripcion") 
+        propiedad.imagen_url = request.form.get("imagen_url") or None 
         db.session.commit()
         flash("Propiedad actualizada.", "success")
         return redirect(url_for("admin_propiedades"))

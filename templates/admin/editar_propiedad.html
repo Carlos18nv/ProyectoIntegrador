@@ -5,7 +5,8 @@
 <h1>Editar propiedad</h1>
 <p class="page-subtitle">{{ propiedad.codigo }} · {{ propiedad.tipo|capitalize }} · {{ propiedad.direccion }}</p>
 
-<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;" method="post" action="{{ url_for('editar_propiedad', propiedad_id=propiedad.id) }}">
+<form class="schedule-form" style="background:#fff; border-radius:12px; box-shadow:var(--shadow); max-width:600px;"
+  method="post" action="{{ url_for('editar_propiedad', propiedad_id=propiedad.id) }}">
   <label>Título (solo informativo, no se puede editar aquí)
     <input type="text" value="{{ propiedad.titulo }}" disabled>
   </label>
@@ -13,6 +14,7 @@
     <input type="number" name="precio" min="1" step="0.01" value="{{ propiedad.precio }}" required>
   </label>
   <label>Descripción
+    <label>URL de la imagen <input type="text" name="imagen_url" value="{{ propiedad.imagen_url or '' }}"> </label>
     <textarea name="descripcion" rows="4">{{ propiedad.descripcion or "" }}</textarea>
   </label>
 
